@@ -12,17 +12,7 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '100%',
-  },
-  heading: {
-    fontSize: theme.typography.pxToRem(15),
-    fontWeight: theme.typography.fontWeightRegular,
-  }
-}));
+import {useStyles} from './style';
 
 Amplify.configure(awsExports);
 
@@ -38,7 +28,6 @@ const App = () => {
     try {
       const todoData = await API.graphql(graphqlOperation(listTodos))
       const todos = todoData.data.listTodos.items
-      console.log(todos);
       setTodos(todos)
     } catch (err) {
       console.log('error fetching todos')
@@ -67,11 +56,10 @@ const App = () => {
       setTodos(updatedTodos);
     }
   }
-
   const classes = useStyles();
 
   return (
-      <div style={styles.container}>
+      <div className={classes.container}>
         <h2>React Learning Todos</h2>
 
         <CreateTodo addedTodo={ todo => {setTodos([...todos, todo])} }></CreateTodo>
@@ -107,13 +95,5 @@ const App = () => {
   );
 }
 
-const styles = {
-  container: { width: 400, margin: '0 auto', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: 20 },
-  todo: {  marginBottom: 15 },
-  input: { border: 'none', backgroundColor: '#ddd', marginBottom: 10, padding: 8, fontSize: 18 },
-  todoName: { fontSize: 20, fontWeight: 'bold' },
-  todoDescription: { marginBottom: 0 },
-  button: { backgroundColor: 'black', color: 'white', outline: 'none', fontSize: 18, padding: '12px 0px' }
-}
 
 export default App
